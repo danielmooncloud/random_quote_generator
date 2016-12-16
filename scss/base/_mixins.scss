@@ -1,0 +1,18 @@
+@mixin font-family($family) {
+	@import url('#{$font-path}#{$family}');
+}
+
+@mixin text($size, $weight: null) {
+	font-size: $size;
+	font-weight: $weight;
+}
+
+@mixin color($color) {
+  color: $color;
+  transition: background-color 1000ms ease-in;
+}
+
+@mixin background($color) {
+  background-color: $color;
+  transition: background-color 1000ms ease-in;
+}

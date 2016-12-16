@@ -1,0 +1,27 @@
+/* Base Styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  width: 35px;
+}
+
+h4 {
+  margin-top: 30px;
+  float: right;
+  margin-right: 5%;
+}
+
+a {  
+  cursor: pointer;
+  color: $white;
+  border-radius: 5px;
+  height: 40px;
+  opacity: 1; 
+} 

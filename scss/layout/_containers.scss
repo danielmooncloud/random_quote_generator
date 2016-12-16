@@ -1,0 +1,66 @@
+
+.main {
+  @extend %display;
+  flex-direction: column;
+  height: 350px;
+  width: 60%;
+  margin: 150px auto;
+  background-color: $white;
+  border-radius: 5px;
+  padding: 25px;
+  @media #{$break-wide} {
+    height: 450px;
+  }
+  @media #{$break-narrow} {
+    margin: 10px auto;
+    width: 95%;
+    height: 450px;
+  }
+}
+
+.upper {
+  @extend %display;
+  flex: 4 0;
+  &-left {
+    @extend %flex;
+    text-align: center;
+  }
+  &-right {
+    flex: 4 0;
+    padding-top: 30px;
+    padding-right: 50px;
+    @media #{$break-narrow} {
+      padding-right: 5px;
+      padding-left: 10px;
+    }
+  }
+  @media #{$break-narrow} {
+    flex: 3 0;
+  }
+}
+
+.lower {
+  @extend %display;
+  @extend %flex;
+  &-left {
+    @extend %flex; 
+    @media #{$break-narrow} {
+      flex: 1 100%;
+      display: flex;
+      padding-right: 0;
+    }
+  }
+  &-right {
+    flex: 3 0;
+    padding-right: 10%;
+    @media #{$break-narrow} {
+      flex: 1 100%;
+      display: flex;
+      padding-right: 0;
+    }
+  }
+  @media #{$break-narrow} {
+    flex-wrap: wrap;
+  }
+}
+

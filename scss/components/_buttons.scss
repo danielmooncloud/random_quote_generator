@@ -1,0 +1,40 @@
+button {
+  &:hover, &:active, &:focus {
+    transform: scale(1.2);
+    opacity: .9;
+    outline: none;
+  } 
+  &#left-button { 
+    min-width: 30%;
+    margin-left: 45%;
+    @extend %height;
+    @extend %transformation;
+    @media #{$break-narrow} {
+      flex: 1 100%;
+      width: 100%;
+      margin: 0;
+      margin-bottom: 5px;
+      text-align: center;
+    }
+  }
+  &#right-button {
+    color: white;
+    margin-left: 80%;
+    @extend %height;
+    @extend %transformation;
+    @media #{$break-narrow} {
+      flex: 1 100%;
+      width: 100%;
+      margin: 0;
+      margin-bottom: 5px;
+      text-align: center;
+    }
+  }  
+}
+
+
+
+
+
+
+

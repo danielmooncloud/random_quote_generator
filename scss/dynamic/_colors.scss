@@ -1,0 +1,40 @@
+
+.color1 {
+  @include background($purple);
+}
+
+.fontColor1 {
+   @include color($purple);
+}
+
+.color2 {
+  @include background($red);   
+}
+
+.fontColor2 {
+  @include color($red);
+}
+
+.color3 {
+  @include background($green);
+}
+
+.fontColor3 {
+  @include color($green);
+}
+
+.color4 {
+  @include background($pink);  
+}
+
+.fontColor4 {
+  @include color($pink);
+}
+
+.color5 {
+  @include background($orange);  
+}
+
+.fontColor5 {
+  @include color($orange);
+}
