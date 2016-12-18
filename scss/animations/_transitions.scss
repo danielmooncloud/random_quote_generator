@@ -1,3 +1,4 @@
+/* color transitions */
 
 .color1 {
   @include background($purple);
@@ -38,3 +39,21 @@
 .fontColor5 {
   @include color($orange);
 }
+
+/* button transitions */
+ 
+ #left-button, #right-button {  
+    opacity: 1;
+    transition-property: opacity, transform;
+    transition-duration: .3s; 
+    &:hover, &:active, &:focus {
+      transform: scale(1.2);
+      opacity: .8;
+    } 
+  }
+
+
+ 
+
+
+
