@@ -1,6 +1,6 @@
 button {
   height: 50px;
-  text-align: center;
+  @extend %centered;
   &:hover, &:active, &:focus {
     outline: none;
   } 

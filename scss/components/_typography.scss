@@ -12,7 +12,7 @@ h1 {
 p {
   @include text(24px, bold);
   @media #{$break-narrow} {
-    font-size: 20px;
+    @include text(120px);
   }
 }
 

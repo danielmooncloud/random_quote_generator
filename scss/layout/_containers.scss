@@ -23,7 +23,7 @@
   flex: 4 0;
   &-left {
     @extend %flex;
-    text-align: center;
+    @extend %centered;
   }
   &-right {
     flex: 4 0;
