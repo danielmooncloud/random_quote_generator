@@ -155,7 +155,7 @@ h4 {
   opacity: 1;
   transition-property: opacity, transform;
   transition-duration: .3s; }
-  #left-button:hover, #left-button:active, #left-button:focus, #right-button:hover, #right-button:active, #right-button:focus {
+  #left-button:hover, #right-button:hover {
     transform: scale(1.2);
     opacity: .8; }
 

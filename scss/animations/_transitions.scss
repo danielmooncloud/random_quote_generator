@@ -46,7 +46,7 @@
     opacity: 1;
     transition-property: opacity, transform;
     transition-duration: .3s; 
-    &:hover, &:active, &:focus {
+    &:hover {
       transform: scale(1.2);
       opacity: .8;
     } 
