@@ -13,14 +13,13 @@ var model = {
 	            url: "https://api.myjson.com/bins/38caj",
 	            dataType: "json",                
 	            success: json => {
-	              json = json.filter(function(val) {
-	  			        return (val.id === random);
-					  });
-	    
-	              callback(json);   
-	        }  
+	              			json = json.filter(function(val) {
+	  			        		return (val.id === random);
+					  		});
+	              			callback(json);   
+	        			}  
 	    });
-  } 
+  	} 
 }
 
 var controller = {
