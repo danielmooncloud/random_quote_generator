@@ -1,17 +1,18 @@
 
 .main {
   @extend %display;
-  flex-direction: column;
+  @include flex-direction(column);
   height: 350px;
   width: 60%;
+  max-width: 700px;
   margin: 150px auto;
   background-color: $white;
   border-radius: 5px;
   padding: 25px;
-  @media #{$break-wide} {
+  @media #{$break-laptop} {
     height: 450px;
   }
-  @media #{$break-narrow} {
+  @media #{$break-tablet} {
     margin: 10px auto;
     width: 95%;
   }
@@ -19,46 +20,46 @@
 
 .upper {
   @extend %display;
-  flex: 4 0;
+  @include flex(4, 0);
   &-left {
-    @extend %flex;
+    @include flex(1, 0);
     @extend %centered;
   }
   &-right {
-    flex: 4 0;
+    @include flex(4, 0);
     padding-top: 30px;
     padding-right: 50px;
-    @media #{$break-narrow} {
+    @media #{$break-tablet} {
       padding-right: 5px;
       padding-left: 10px;
     }
   }
-  @media #{$break-narrow} {
+  @media #{$break-tablet} {
     flex: 3 0;
   }
 }
 
 .lower {
   @extend %display;
-  @extend %flex;
+  @include flex(1, 0);
   &-left {
     @extend %flex; 
-    @media #{$break-narrow} {
+    @media #{$break-tablet} {
       flex: 1 100%;
       display: flex;
       padding-right: 0;
     }
   }
   &-right {
-    flex: 3 0;
+    @include flex(3, 0);
     padding-right: 10%;
-    @media #{$break-narrow} {
+    @media #{$break-tablet} {
       flex: 1 100%;
       display: flex;
       padding-right: 0;
     }
   }
-  @media #{$break-narrow} {
+  @media #{$break-tablet} {
     flex-wrap: wrap;
   }
 }

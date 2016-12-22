@@ -43,12 +43,12 @@
 /* button transitions */
  
  #left-button, #right-button {  
-    opacity: 1;
-    transition-property: opacity, transform;
-    transition-duration: .3s; 
+    @include opacity(1);
+    @include transition(opacity);
+    @include transition(transform);
     &:hover {
-      transform: scale(1.2);
-      opacity: .8;
+      @include transform(1.2);
+      @include opacity(.8);
     } 
   }
 

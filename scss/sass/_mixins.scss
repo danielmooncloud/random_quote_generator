@@ -8,11 +8,56 @@
 }
 
 @mixin color($color) {
-  color: $color;
-  transition: background-color 1000ms ease-in;
+	color: $color;
+	-webkit-transition: background-color 1000ms ease-in;
+	transition: background-color 1000ms ease-in;
 }
 
 @mixin background($color) {
-  background-color: $color;
-  transition: background-color 1000ms ease-in;
+	background-color: $color;
+	-webkit-transition: background-color 1000ms ease-in;
+	transition: background-color 1000ms ease-in;
+}
+
+@mixin opacity($value) {
+	opacity: $value;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=#{$value * 100})";
+}
+
+@mixin transform($value) {
+	-webkit-transform: scale($value);
+	        transform: scale($value);
+}
+
+@mixin transition($property, $duration:.3s, $timing:ease-in-out, $delay: null) {
+	-moz-transition:    $duration, $property, $timing, $delay;
+    -o-transition:      $duration, $property, $timing, $delay;
+    -webkit-transition: $duration, $property, $timing, $delay;
+    transition:         $duration, $property, $timing, $delay;
+}
+
+@mixin flex-direction($value: row) {
+	@if $value == row-reverse {
+		-webkit-box-direction: reverse;
+		-webkit-box-orient: horizontal;
+	} @else if $value == column {
+		-webkit-box-direction: normal;
+		-webkit-box-orient: vertical;
+	} @else if $value == column-reverse {
+		-webkit-box-direction: reverse;
+		-webkit-box-orient: vertical;
+	} @else {
+		-webkit-box-direction: normal;
+		-webkit-box-orient: horizontal;
+	}
+	-webkit-flex-direction: $value;
+	-moz-flex-direction: $value;
+	-ms-flex-direction: $value;
+	flex-direction: $value;
+}
+
+@mixin flex($flex-grow, $flex-basis) {
+	-webkit-box-flex: $flex-grow;
+	   		-ms-flex: $flex-grow $flex-basis;
+	        	flex: $flex-grow $flex-basis;
 }

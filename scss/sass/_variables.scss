@@ -19,6 +19,6 @@ $stack-oxygen		:  'Oxygen', $stack-sans-serif;
 $font-path			:  'https://fonts.googleapis.com/css?family=';
 
 
-$break-narrow		:  '(max-width: 500px)';
-$break-wide			:  '(max-width: 700px)';
+$break-tablet		:  '(max-width: 768px)';
+$break-laptop		:  '(max-width: 992px)';
 

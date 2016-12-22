@@ -11,7 +11,7 @@ h1 {
 
 p {
   @include text(24px, bold);
-  @media #{$break-narrow} {
+  @media #{$break-tablet} {
     @include text(18px);
   }
 }
