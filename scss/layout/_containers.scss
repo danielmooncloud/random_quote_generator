@@ -1,6 +1,6 @@
 
 .main {
-  @extend %display;
+  @extend %flexbox;
   @include flex-direction(column);
   height: 350px;
   width: 60%;
@@ -19,7 +19,7 @@
 }
 
 .upper {
-  @extend %display;
+  @extend %flexbox;
   @include flex(4, 0);
   &-left {
     @include flex(1, 0);
@@ -40,7 +40,7 @@
 }
 
 .lower {
-  @extend %display;
+  @extend %flexbox;
   @include flex(1, 0);
   &-left {
     @include flex(1, 0); 
