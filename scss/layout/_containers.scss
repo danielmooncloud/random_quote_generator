@@ -43,7 +43,7 @@
   @extend %display;
   @include flex(1, 0);
   &-left {
-    @extend %flex; 
+    @include flex(1, 0); 
     @media #{$break-tablet} {
       flex: 1 100%;
       display: flex;
