@@ -86,7 +86,7 @@ var view = {
 	      view.$main.removeClass(animationArray[random]);
 	    }, 800);
  	},
- 	tweet: (string)=> view.$twitter.attr("href", "https://twitter.com/intent/tweet?hashtags=quotes&related=freecodecamp&text=" + encodeURIComponent(string));         
+ 	tweet: (string)=> view.$twitter.attr("href", "https://twitter.com/intent/tweet?hashtags=quotes&related=freecodecamp&text=" + encodeURIComponent(string))         
   	
 }
 
