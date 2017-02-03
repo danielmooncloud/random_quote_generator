@@ -2,9 +2,7 @@
 'use strict';
 
 var model = {
-	randomNumber: function(min, max) {
-    	return Math.floor(Math.random() * (max - min + 1)) + min;
-  },
+	randomNumber: (min, max)=> Math.floor(Math.random() * (max - min + 1)) + min,
 	getNewQuote: function(callback) {
 	    let random = this.randomNumber(0, 50);
 	    $.ajax({
@@ -27,13 +25,8 @@ var controller = {
 		view.init();
 		this.refreshQuote();	
 	},
-	refreshQuote: function() {
-		model.getNewQuote(view.renderNew);
-		
-	},
-	getRandom: function(min, max) {
-		return model.randomNumber(min, max);
-	}
+	refreshQuote: ()=> model.getNewQuote(view.renderNew),
+	getRandom: (min, max)=> model.randomNumber(min, max)
 }
 
 
@@ -65,7 +58,7 @@ var view = {
 	renderNew: function(data) {
 	    let currentQuote = data[0].quote;
 	    let currentAuthor = data[0].person;
-	    var urlTerm = '"' + currentQuote + '"     ' + currentAuthor;                 
+	    let urlTerm = '"' + currentQuote + '"     ' + currentAuthor;                 
      	view.tweet(urlTerm); 
 	    view.$quoteText.html(currentQuote);
 	    view.$authorText.html(currentAuthor);    
@@ -86,16 +79,15 @@ var view = {
 	    view.$marks.addClass('fontColor' + random);
 	},
 	animate: function() {
-	    var random = controller.getRandom(0,7);
-	    var animationArray = ['animated rotateIn', 'animated zoomInDown','animated hinge','animated bounce','animated shake','animated rubberBand','animated swing','animated wobble']
+	    let random = controller.getRandom(0,7);
+	    const animationArray = ['animated rotateIn', 'animated zoomInDown','animated hinge','animated bounce','animated shake','animated rubberBand','animated swing','animated wobble']
 	    view.$main.addClass(animationArray[random]);
 	    setTimeout(function() {
 	      view.$main.removeClass(animationArray[random]);
 	    }, 800);
  	},
- 	tweet: function(string) {
-    	view.$twitter.attr("href", "https://twitter.com/intent/tweet?hashtags=quotes&related=freecodecamp&text=" + encodeURIComponent(string));         
-  	}
+ 	tweet: (string)=> view.$twitter.attr("href", "https://twitter.com/intent/tweet?hashtags=quotes&related=freecodecamp&text=" + encodeURIComponent(string));         
+  	
 }
 
 $(document).ready(function() {
