@@ -36,12 +36,12 @@ var view = {
 	cacheDom: function() {
 		this.$main = $('.main');
 		this.$body = $('body');
-		this.$rightBtn = $('#right-button');
-		this.$leftBtn = $('#left-button');
-		this.$quoteText = $('#quotetext');
-    	this.$authorText = $('#authortext');
-    	this.$marks = $('#marks');	
-    	this.$twitter = $('.twitter');
+		this.$rightBtn = this.$main.find('#right-button');
+		this.$leftBtn = this.$main.find('#left-button');
+		this.$quoteText = this.$main.find('#quotetext');
+    	this.$authorText = this.$main.find('#authortext');
+    	this.$marks = this.$main.find('#marks');	
+    	this.$twitter = this.$main.find('.twitter');
 	},
 
 	bindEvents: function() {
