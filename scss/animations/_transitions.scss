@@ -1,5 +1,13 @@
 /* color transitions */
 
+.start-color {
+  @include background($pink);
+}
+
+.start-font {
+  @include color($pink);
+}
+
 .color1 {
   @include background($purple);
 }
