@@ -2,42 +2,37 @@
 'use strict';
 
 var model = {
-	randomNumber: (min, max)=> Math.floor(Math.random() * (max - min + 1)) + min,
+	
 	getNewQuote: function(callback) {
-	    let random = this.randomNumber(0, 50);
-	    $.ajax({
-	            type:"GET",
-	            contentType: "application/json; charset=utf-8",
-	            url: "https://api.myjson.com/bins/38caj",
-	            dataType: "json",                
-	            success: json => {
-	              			json = json.filter(function(val) {
-	  			        		return (val.id === random);
-					  		});
-	              			callback(json);   
-	        			}  
+	    
+	    $.getJSON('data/quotes.json', function(data) {
+	    	callback(data)
 	    });
   	} 
 }
 
+
 var controller = {
+
 	init: function() {
 		view.init();
 		this.refreshQuote();	
 	},
-	refreshQuote: ()=> model.getNewQuote(view.renderNew),
-	getRandom: (min, max)=> model.randomNumber(min, max)
+
+	refreshQuote: ()=> model.getNewQuote(view.renderNew)
 }
 
 
 
 var view = {
+
 	init: function() {
 		this.cacheDom();
 		this.bindEvents();
 		this.changeColor();
 		this.animate();
 	},
+
 	cacheDom: function() {
 		this.$main = $('.main');
 		this.$body = $('body');
@@ -48,6 +43,7 @@ var view = {
     	this.$marks = $('#marks');	
     	this.$twitter = $('.twitter');
 	},
+
 	bindEvents: function() {
 		this.$rightBtn.click(function() {
 			controller.refreshQuote();	
@@ -55,16 +51,19 @@ var view = {
 			view.animate();
 		})
 	},
+
 	renderNew: function(data) {
-	    let currentQuote = data[0].quote;
-	    let currentAuthor = data[0].person;
+		let random = Math.floor(Math.random() * 50)
+	    let currentQuote = data[random].quote;
+	    let currentAuthor = data[random].person;
 	    let urlTerm = '"' + currentQuote + '"     ' + currentAuthor;                 
      	view.tweet(urlTerm); 
 	    view.$quoteText.html(currentQuote);
 	    view.$authorText.html(currentAuthor);    
   	},
+
   	changeColor: function() {	
-	    let random = controller.getRandom(1, 5);
+	    let random = Math.floor(Math.random() * 5) + 1
 	    view.$body.removeClass();
 	    view.$rightBtn.removeClass();
 	    view.$leftBtn.removeClass();
@@ -78,14 +77,16 @@ var view = {
 	    view.$authorText.addClass('fontColor' + random);
 	    view.$marks.addClass('fontColor' + random);
 	},
+
 	animate: function() {
-	    let random = controller.getRandom(0,7);
+	    let random = Math.floor(Math.random() * 8)
 	    const animationArray = ['animated rotateIn', 'animated zoomInDown','animated hinge','animated bounce','animated shake','animated rubberBand','animated swing','animated wobble']
 	    view.$main.addClass(animationArray[random]);
 	    setTimeout(function() {
 	      view.$main.removeClass(animationArray[random]);
 	    }, 800);
  	},
+
  	tweet: (string)=> view.$twitter.attr("href", "https://twitter.com/intent/tweet?hashtags=quotes&related=freecodecamp&text=" + encodeURIComponent(string))         
   	
 }
