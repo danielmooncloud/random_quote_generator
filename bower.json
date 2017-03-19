@@ -1,0 +1,20 @@
+{
+  "name": "random_quote_generator",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "dgsousa <sousa.danielg@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/dgsousa/random_quote_generator",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "animate-sass": "^0.6.6"
+  }
+}

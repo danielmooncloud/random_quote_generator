@@ -1,5 +1,9 @@
-(function() {
-	"use strict";
+import "animate.css";
+import "../scss/application.scss";
+
+
+
+$(document).ready(() => {
 
 	const model = {
 		getNewQuote(callback) {    
@@ -45,7 +49,7 @@
 			const random = Math.floor(Math.random() * 50);
 			const currentQuote = data[random].quote;
 			const currentAuthor = data[random].person;                
-			view.tweet("\"" + currentQuote + "\"     " + currentAuthor); 
+			view.tweet(`${currentQuote} 	${currentAuthor}`); 
 			view.$quoteText.html(currentQuote);
 			view.$authorText.html(currentAuthor);    
 		},
@@ -61,14 +65,14 @@
 			const animationArray = ["rotateIn", "zoomInDown","hinge","bounce","shake","rubberBand","swing","wobble"];
 			view.$main.addClass("animated " + animationArray[random]);
 			setTimeout(() => {
-				view.$main.removeClass("animated " + animationArray[random]);
+				view.$main.removeClass(`animated ${animationArray[random]}`);
 			}, 800);
 		},
-		tweet(string) {view.$twitter.attr("href", "https://twitter.com/intent/tweet?hashtags=quotes&related=freecodecamp&text=" + encodeURIComponent(string));}
+		tweet(string) {view.$twitter.attr("href", `https://twitter.com/intent/tweet?hashtags=quotes&related=freecodecamp&text=${encodeURIComponent(string)}`);}
 	};
 
-	$(document).ready(function() {
-		controller.init();
-	});
-})();
+
+	controller.init();
+});
+
 

@@ -7,6 +7,7 @@ body {
 
 h1 {
   @include text(120px);
+  margin-top: 20px;
 }
 
 p {
@@ -18,4 +19,10 @@ p {
 
 h4 {
   @include text(18px);
+}
+
+button {
+	&#left-button, &#right-button {
+    	font-family: $stack-oxygen;
+  	}  
 }

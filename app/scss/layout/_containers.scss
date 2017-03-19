@@ -1,7 +1,7 @@
 
 .main {
   @include flexbox(column);
-  height: 350px;
+  height: 400px;
   width: 60%;
   max-width: 700px;
   margin: 150px auto;
@@ -22,7 +22,8 @@
   @include flex(4, 0);
   &-left {
     @include flex(1, 0);
-    @extend %centered;
+    @include flexbox();
+    justify-content: center;
   }
   &-right {
     @include flex(4, 0);
