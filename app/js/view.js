@@ -61,7 +61,7 @@ $(document).ready(() => {
 		tweet(string) {view.$twitter.attr("href", `https://twitter.com/intent/tweet?hashtags=quotes&related=freecodecamp&text=${encodeURIComponent(string)}`);}
 	};
 
-	var controller = new Controller(view);
+	const controller = new Controller(view);
 	controller.init();
 });
 
