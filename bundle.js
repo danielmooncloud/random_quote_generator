@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 6);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -9889,13 +9889,27 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 	return jQuery;
 });
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)(module)))
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-// removed by extract-text-webpack-plugin
+"use strict";
+
+
+var model = __webpack_require__(4);
+
+module.exports = function Controller(view) {
+	this.view = view;
+	this.init = function () {
+		this.view.init();
+		this.refreshQuote();
+	};
+	this.refreshQuote = function () {
+		model.getNewQuote(this.view.renderNew);
+	};
+};
 
 /***/ }),
 /* 2 */
@@ -9905,6 +9919,30 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 /***/ }),
 /* 3 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function($) {
+
+var model = {
+	getNewQuote: function getNewQuote(callback) {
+		$.getJSON("data/quotes.json", function (data) {
+			callback(data);
+		});
+	}
+};
+
+module.exports = model;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9934,35 +9972,17 @@ module.exports = function (module) {
 };
 
 /***/ }),
-/* 4 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function($) {
 
+__webpack_require__(3);
 __webpack_require__(2);
-
-__webpack_require__(1);
+var Controller = __webpack_require__(1);
 
 $(document).ready(function () {
-
-	var model = {
-		getNewQuote: function getNewQuote(callback) {
-			$.getJSON("data/quotes.json", function (data) {
-				callback(data);
-			});
-		}
-	};
-
-	var controller = {
-		init: function init() {
-			view.init();
-			this.refreshQuote();
-		},
-		refreshQuote: function refreshQuote() {
-			model.getNewQuote(view.renderNew);
-		}
-	};
 
 	var view = {
 		init: function init() {
@@ -10016,6 +10036,7 @@ $(document).ready(function () {
 		}
 	};
 
+	var controller = new Controller(view);
 	controller.init();
 });
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
