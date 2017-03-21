@@ -9979,8 +9979,14 @@ module.exports = function (module) {
 /* WEBPACK VAR INJECTION */(function($) {
 
 __webpack_require__(3);
+
 __webpack_require__(2);
-var Controller = __webpack_require__(1);
+
+var _controller = __webpack_require__(1);
+
+var _controller2 = _interopRequireDefault(_controller);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 $(document).ready(function () {
 
@@ -10036,7 +10042,7 @@ $(document).ready(function () {
 		}
 	};
 
-	var controller = new Controller(view);
+	var controller = new _controller2.default(view);
 	controller.init();
 });
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
