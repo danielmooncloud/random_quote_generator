@@ -1,9 +1,11 @@
+
+
 const model = {
-	getNewQuote: function(callback) {    
+	getNewQuote(callback) {    
 		$.getJSON("data/quotes.json", (data) => {
 			callback(data);
 		});
 	} 
 };
 
-module.exports = model;
+export default model;

@@ -1,12 +1,16 @@
-var model = require("./model");
+import model from "./model";
 
 
-module.exports = function Controller(view) {
-	this.view = view;
-	this.init = function() {
+export default class Controller {
+	constructor(view) {
+		this.view = view;
+	}
+
+	init() {
 		this.view.init();
 		this.refreshQuote();	
-	};
-	this.refreshQuote = function() {model.getNewQuote(this.view.renderNew);}; 
-};
+	}
+
+	refreshQuote() {model.getNewQuote(this.view.renderNew);}	
+}
 
