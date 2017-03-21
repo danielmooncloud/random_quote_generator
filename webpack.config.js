@@ -1,8 +1,9 @@
 var webpack = require('webpack');
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
 	context: __dirname + '/app/js',
-	entry: './generator.js',
+	entry: './view.js',
 	output: {
 		path: __dirname + '/public',
 		filename: 'bundle.js'
@@ -26,13 +27,14 @@ module.exports = {
 	},
 
 	plugins: [
-				new webpack.ProvidePlugin({
-    			$: "jquery",
-   	 			jQuery: "jquery",
-    			"window.jQuery": "jquery"
-			}),
+		
+		new webpack.ProvidePlugin({
+			$: "jquery",
+ 				jQuery: "jquery",
+			"window.jQuery": "jquery"
+		}),
 
-        		new ExtractTextPlugin("[name].css")
+        new ExtractTextPlugin("[name].css")
     ]
 
 }
