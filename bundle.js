@@ -9898,18 +9898,44 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 "use strict";
 
 
-var model = __webpack_require__(4);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 
-module.exports = function Controller(view) {
-	this.view = view;
-	this.init = function () {
-		this.view.init();
-		this.refreshQuote();
-	};
-	this.refreshQuote = function () {
-		model.getNewQuote(this.view.renderNew);
-	};
-};
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _model = __webpack_require__(4);
+
+var _model2 = _interopRequireDefault(_model);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Controller = function () {
+	function Controller(view) {
+		_classCallCheck(this, Controller);
+
+		this.view = view;
+	}
+
+	_createClass(Controller, [{
+		key: "init",
+		value: function init() {
+			this.view.init();
+			this.refreshQuote();
+		}
+	}, {
+		key: "refreshQuote",
+		value: function refreshQuote() {
+			_model2.default.getNewQuote(this.view.renderNew);
+		}
+	}]);
+
+	return Controller;
+}();
+
+exports.default = Controller;
 
 /***/ }),
 /* 2 */
@@ -9930,6 +9956,11 @@ module.exports = function Controller(view) {
 "use strict";
 /* WEBPACK VAR INJECTION */(function($) {
 
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+
 var model = {
 	getNewQuote: function getNewQuote(callback) {
 		$.getJSON("data/quotes.json", function (data) {
@@ -9938,7 +9969,7 @@ var model = {
 	}
 };
 
-module.exports = model;
+exports.default = model;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
