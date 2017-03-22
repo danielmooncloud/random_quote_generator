@@ -2,15 +2,24 @@ import model from "./model";
 
 
 export default class Controller {
-	constructor(view) {
-		this.view = view;
+	constructor() {
+		this._view;
 	}
 
-	init() {
-		this.view.init();
+	get view() {
+		return this._view;
+	}
+
+	set view(view) {
+		this._view = view;
+	}
+
+	init(view) {
+		this._view = view;
+		this._view.init();
 		this.refreshQuote();	
 	}
 
-	refreshQuote() {model.getNewQuote(this.view.renderNew);}	
+	refreshQuote() {model.getNewQuote(this._view.renderNew);}	
 }
 
