@@ -48,11 +48,11 @@ $(document).ready(() => {
 		},
 
 		animate() {
-			const random = Math.floor(Math.random() * 8);
+			const random = Math.floor(Math.random() * 7);
 			const animationArray = ["rotateIn", "zoomInDown", "hinge", "shake", "rubberBand", "swing", "wobble"];
 			const animationName = "animated " + animationArray[random];
 			const animationEnd = "webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend";
-			view.$main.addClass(animationName).on(animationEnd, function() {
+			view.$main.addClass(animationName).one(animationEnd, function() {
 				$(this).removeClass(animationName);
 			});
 		},
