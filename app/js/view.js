@@ -16,22 +16,22 @@ $(document).ready(() => {
 
 		cacheDom() {
 			this.$main = $(".main");
-			this.$body = $("body");
-			this.$rightBtn = this.$main.find("#right-button");
-			this.$leftBtn = this.$main.find("#left-button");
+			this.$backgroundChange = $(".background-change");
+			this.$colorChange = $(".color-change");
+			this.$quoteBtn = this.$main.find("#quote-button");
 			this.$quoteText = this.$main.find("#quotetext");
 			this.$authorText = this.$main.find("#authortext");
-			this.$marks = this.$main.find("#marks");	
-			this.$twitter = this.$main.find(".twitter");
+			this.$twitterLink = this.$main.find(".twitter-link");
 		},
 
 		bindEvents() {
-			this.$rightBtn.click(() => {
+			this.$quoteBtn.click(() => {
 				controller.refreshQuote();	
 				view.changeColor();
 				view.animate();
 			});
 		},
+
 		renderNew(data) {
 			const random = Math.floor(Math.random() * 50);
 			const currentQuote = data[random].quote;
@@ -43,22 +43,23 @@ $(document).ready(() => {
 
 		changeColor() {	
 			const random = Math.floor(Math.random() * 5) + 1;
-			const colorChanges = ["$body", "$rightBtn", "$leftBtn", "$quoteText", "$authorText", "$marks"];
-			colorChanges.forEach((element, i) => {
-				view[element].removeClass().addClass((i <= 2 ? "color": "fontColor") + random); 
-			});
+			view["$backgroundChange"].attr("class", "background-change backgroundColor" + random);
+			view["$colorChange"].attr("class", "color-change color" + random);
 		},
 
 		animate() {
 			const random = Math.floor(Math.random() * 8);
-			const animationArray = ["rotateIn", "zoomInDown","hinge","bounce","shake","rubberBand","swing","wobble"];
-			view.$main.addClass("animated " + animationArray[random]);
-			setTimeout(() => {
-				view.$main.removeClass(`animated ${animationArray[random]}`);
-			}, 800);
+			const animationArray = ["rotateIn", "zoomInDown", "hinge", "shake", "rubberBand", "swing", "wobble"];
+			const animationName = "animated " + animationArray[random];
+			const animationEnd = "webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend";
+			view.$main.addClass(animationName).on(animationEnd, function() {
+				$(this).removeClass(animationName);
+			});
 		},
 
-		tweet(string) {view.$twitter.attr("href", `https://twitter.com/intent/tweet?hashtags=quotes&related=freecodecamp&text=${encodeURIComponent(string)}`);}
+		tweet(string) {
+			view.$twitterLink.attr("href", `https://twitter.com/intent/tweet?hashtags=quotes&related=freecodecamp&text=${encodeURIComponent(string)}`);
+		}
 	};
 
 	const controller = new Controller();

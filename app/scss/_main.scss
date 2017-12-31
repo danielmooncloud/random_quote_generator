@@ -1,0 +1,140 @@
+@include font-family(Oxygen);
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: $stack-oxygen;
+    margin: 0;
+    padding: 0;
+
+    .main {
+        @include flexbox(column);
+        height: 400px;
+        width: 60%;
+        max-width: 700px;
+        margin: 150px auto;
+        background-color: $white;
+        border-radius: 5px;
+        padding: 25px;
+        
+        @media #{$break-laptop} {
+            height: 450px;
+        }
+        
+        @media #{$break-tablet} {
+            margin: 10px auto;
+            width: 95%;
+        }
+    }
+
+    .upper {
+        @include flexbox();
+        @include flex(4, 0);
+        
+        &-left {
+            @include flex(1, 0);
+            @include flexbox();
+            justify-content: center;
+            h1 {
+                @include text(120px);
+                margin-top: 20px;
+            }
+        }
+        
+        &-right {
+            @include flex(4, 0);
+            padding-top: 30px;
+            padding-right: 50px;
+            
+            @media #{$break-tablet} {
+                padding-right: 5px;
+                padding-left: 10px;
+            }
+
+            p {
+                @include text(24px, bold);
+                @media #{$break-tablet} {
+                    @include text(18px);
+                }
+            }
+
+            h4 {
+                @include text(18px);
+                margin-top: 30px;
+                float: right;
+                margin-right: 5%;
+            }
+        }
+        
+        @media #{$break-tablet} {
+            flex: 3 0;
+        }
+    }
+
+    .lower {
+        @include flexbox();
+        @include flex(1, 0);
+        
+        &-left {
+            @include flex(1, 0); 
+            @media #{$break-tablet} {
+                flex: 1 100%;
+                display: flex;
+                padding-right: 0;
+            }
+        }
+
+        &-right {
+            @include flex(3, 0);
+            padding-right: 10%;
+            @media #{$break-tablet} {
+                flex: 1 100%;
+                display: flex;
+                padding-right: 0;
+            }
+        }
+
+        @media #{$break-tablet} {
+            flex-wrap: wrap;
+        }
+
+        button {
+    
+            height: 50px;
+                text-align: center;
+                &:hover, &:active, &:focus {
+                outline: none;
+            } 
+            
+            &#twitter-button { 
+                min-width: 30%;
+                margin-left: 45%;
+                a {  
+                    cursor: pointer;
+                    color: $white;
+                    border-radius: 5px;
+                    height: 40px;
+                    img {
+                        width: 35px;
+                    }
+                } 
+            }
+
+            &#quote-button {
+                color: $white;
+                margin-left: 80%;   
+            }
+
+            &#twitter-button, &#quote-button {
+                font-family: $stack-oxygen;
+                @media #{$break-tablet} {
+                    width: 100%;
+                    margin: 0 0 5px 0;
+                }
+            }  
+        }
+    }
+}
+

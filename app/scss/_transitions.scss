@@ -1,0 +1,58 @@
+/* color transitions */
+
+.backgroundColor1 {
+    @include background($purple);
+}
+
+.color1 {
+    @include color($purple);
+}
+
+.backgroundColor2 {
+    @include background($red);   
+}
+
+.color2 {
+    @include color($red);
+}
+
+.backgroundColor3 {
+    @include background($green);
+}
+
+.color3 {
+    @include color($green);
+}
+
+.backgroundColor4 {
+    @include background($pink);  
+}
+
+.color4 {
+    @include color($pink);
+}
+
+.backgroundColor5 {
+    @include background($orange);  
+}
+
+.color5 {
+    @include color($orange);
+}
+
+/* button transitions */
+
+#twitter-button, #quote-button {  
+    @include opacity(1);
+    @include transition(opacity);
+    @include transition(transform);
+    &:hover {
+        @include transform(1.2);
+        @include opacity(.8);
+    } 
+}
+
+ 
+
+
+

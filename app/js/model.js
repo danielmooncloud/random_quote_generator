@@ -2,9 +2,7 @@
 
 const model = {
 	getNewQuote(callback) {    
-		$.getJSON("data/quotes.json", (data) => {
-			callback(data);
-		});
+		$.getJSON("data/quotes.json", callback);
 	} 
 };
 
