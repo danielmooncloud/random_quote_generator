@@ -6,5 +6,5 @@ import View from "./view.js";
 
 
 $(document).ready(() => {
-	new Controller(Model, View);
+	new Controller(Model, View, "data/quotes.json");
 });
