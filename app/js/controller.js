@@ -1,15 +1,33 @@
-
+import pubSub from "./pubsub.js";
 
 
 export default class Controller {
-	constructor(Model, View, filepath) {
-		this.refreshQuote = this.refreshQuote.bind(this);
-		this.model = new Model(filepath);
-		this.view = new View(this.refreshQuote);
+	constructor(filepath) {
+		$.getJSON(filepath, (data) => {
+			this.data = data;
+			this.cacheDom();
+			this.bindEvents();
+			this.updateQuote();
+		});
 	}
 
-	refreshQuote(callback) {
-		this.model.getNewQuote(callback);
-	}	
+	cacheDom() {
+		this.$main = $(".main");
+		this.$quoteBtn = this.$main.find("#quote-button");
+	}
+
+	bindEvents() {
+		this.$quoteBtn.click(() => {
+			this.updateQuote();
+		});
+	}
+
+	updateQuote() {
+		const random = Math.floor(Math.random() * 50);
+		const quote = this.data[random].quote;
+		const author = this.data[random].person;
+		pubSub.publish("updateQuote", {quote, author});     
+	}
+
 }
 
