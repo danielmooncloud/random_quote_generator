@@ -3,11 +3,14 @@ import pubSub from "./pubsub.js";
 
 export default class Controller {
 	constructor(filepath) {
+		this.cacheDom();
+		this.bindEvents();
 		$.getJSON(filepath, (data) => {
 			this.data = data;
-			this.cacheDom();
-			this.bindEvents();
 			this.updateQuote();
+		}).fail(function() {
+			const error = new Error("This service is current unavailable.");
+			pubSub.publish("renderError", error);
 		});
 	}
 
@@ -23,10 +26,12 @@ export default class Controller {
 	}
 
 	updateQuote() {
-		const random = Math.floor(Math.random() * 50);
-		const quote = this.data[random].quote;
-		const author = this.data[random].person;
-		pubSub.publish("updateQuote", {quote, author});     
+		if(this.data) {
+			const random = Math.floor(Math.random() * this.data.length);
+			const quote = this.data[random].quote;
+			const author = this.data[random].person;
+			pubSub.publish("updateQuote", {quote, author});
+		}
 	}
 
 }

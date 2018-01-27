@@ -21,6 +21,9 @@ export default class View {
 		pubSub.subscribe("updateQuote", (quote) => {
 			this.renderNew(quote);
 		});
+		pubSub.subscribe("renderError", (error) => {
+			this.renderError(error);
+		});
 	}
 
 	renderNew(data) {
@@ -28,6 +31,12 @@ export default class View {
 		this.tweet(`${quote} 	${author}`); 
 		this.$quoteText.html(quote);
 		this.$authorText.html(author);
+		this.changeColor();
+		this.animate();
+	}
+
+	renderError(error) {
+		this.$quoteText.html(error.message);
 		this.changeColor();
 		this.animate();
 	}
