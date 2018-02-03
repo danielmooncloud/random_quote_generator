@@ -6,9 +6,9 @@
 /******/ 	function __webpack_require__(moduleId) {
 /******/
 /******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId])
+/******/ 		if(installedModules[moduleId]) {
 /******/ 			return installedModules[moduleId].exports;
-/******/
+/******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			i: moduleId,
@@ -76,7 +76,7 @@
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 /*!
- * jQuery JavaScript Library v3.2.0
+ * jQuery JavaScript Library v3.2.1
  * https://jquery.com/
  *
  * Includes Sizzle.js
@@ -86,7 +86,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
  * Released under the MIT license
  * https://jquery.org/license
  *
- * Date: 2017-03-16T21:26Z
+ * Date: 2017-03-20T18:59Z
  */
 (function (global, factory) {
 
@@ -159,7 +159,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	// unguarded in another place, it seems safer to define global only for this module
 
 
-	var version = "3.2.0",
+	var version = "3.2.1",
 
 
 	// Define a local copy of jQuery
@@ -5188,10 +5188,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			},
 			click: {
 
-				// For checkable types, fire native event so checked state will be right
+				// For checkbox, fire native event so checked state will be right
 				trigger: function trigger() {
-					if (rcheckableType.test(this.type) && this.click && nodeName(this, "input")) {
-
+					if (this.type === "checkbox" && this.click && nodeName(this, "input")) {
 						this.click();
 						return false;
 					}
@@ -6000,7 +5999,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		    minWidth,
 		    maxWidth,
 		    ret,
-		    style = elem.style;
+
+
+		// Support: Firefox 51+
+		// Retrieving style before computed somehow
+		// fixes an issue with getting wrong values
+		// on detached elements
+		style = elem.style;
 
 		computed = computed || getStyles(elem);
 
@@ -6181,6 +6186,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		// Check for style in case a browser which returns unreliable values
 		// for getComputedStyle silently falls back to the reliable elem.style
 		valueIsBorderBox = isBorderBox && (support.boxSizingReliable() || val === elem.style[name]);
+
+		// Fall back to offsetWidth/Height when value is "auto"
+		// This happens for inline elements with no explicit setting (gh-3571)
+		if (val === "auto") {
+			val = elem["offset" + name[0].toUpperCase() + name.slice(1)];
+		}
 
 		// Normalize "", auto, and prepare for extra
 		val = parseFloat(val) || 0;
@@ -9825,16 +9836,16 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 			// ( namespace ) or ( selector, types [, fn] )
 			return arguments.length === 1 ? this.off(selector, "**") : this.off(types, selector || "**", fn);
-		},
-		holdReady: function holdReady(hold) {
-			if (hold) {
-				jQuery.readyWait++;
-			} else {
-				jQuery.ready(true);
-			}
 		}
 	});
 
+	jQuery.holdReady = function (hold) {
+		if (hold) {
+			jQuery.readyWait++;
+		} else {
+			jQuery.ready(true);
+		}
+	};
 	jQuery.isArray = Array.isArray;
 	jQuery.parseJSON = JSON.parse;
 	jQuery.nodeName = nodeName;
@@ -9889,7 +9900,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 	return jQuery;
 });
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)(module)))
 
 /***/ }),
 /* 1 */
@@ -9902,55 +9913,39 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _model = __webpack_require__(4);
+var pubSub = {
 
-var _model2 = _interopRequireDefault(_model);
+	events: {},
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	subscribe: function subscribe(eventName, fn) {
+		this.events[eventName] = this.events[eventName] || [];
+		this.events[eventName].push(fn);
+	},
+	unsubscribe: function unsubscribe(eventName, fn) {
+		var _this = this;
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Controller = function () {
-	function Controller(view) {
-		_classCallCheck(this, Controller);
-
-		this.view = view;
+		if (this.events[eventName]) {
+			this.events[eventName].forEach(function (fxn, i) {
+				if (fxn === fn) {
+					_this.events[eventName].splice(i, 1);
+				}
+			});
+		}
+	},
+	publish: function publish(eventName, data) {
+		if (this.events[eventName]) {
+			this.events[eventName].forEach(function (fn) {
+				fn(data);
+			});
+		}
 	}
+};
 
-	_createClass(Controller, [{
-		key: "init",
-		value: function init() {
-			this.view.init();
-			this.refreshQuote();
-		}
-	}, {
-		key: "refreshQuote",
-		value: function refreshQuote() {
-			_model2.default.getNewQuote(this.view.renderNew);
-		}
-	}]);
-
-	return Controller;
-}();
-
-exports.default = Controller;
+exports.default = pubSub;
 
 /***/ }),
 /* 2 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9960,20 +9955,208 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var model = {
-	getNewQuote: function getNewQuote(callback) {
-		$.getJSON("data/quotes.json", function (data) {
-			callback(data);
+var _pubsub = __webpack_require__(1);
+
+var _pubsub2 = _interopRequireDefault(_pubsub);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Controller = function () {
+	function Controller(filepath) {
+		var _this = this;
+
+		_classCallCheck(this, Controller);
+
+		this.cacheDom();
+		this.bindEvents();
+		$.getJSON(filepath, function (data) {
+			_this.data = data;
+			_this.updateQuote();
+		}).fail(function () {
+			var error = new Error("This service is current unavailable.");
+			_pubsub2.default.publish("renderError", error);
 		});
 	}
-};
 
-exports.default = model;
+	_createClass(Controller, [{
+		key: "cacheDom",
+		value: function cacheDom() {
+			this.$main = $(".main");
+			this.$quoteBtn = this.$main.find("#quote-button");
+		}
+	}, {
+		key: "bindEvents",
+		value: function bindEvents() {
+			var _this2 = this;
+
+			this.$quoteBtn.click(function () {
+				_this2.updateQuote();
+			});
+		}
+	}, {
+		key: "updateQuote",
+		value: function updateQuote() {
+			if (this.data) {
+				var random = Math.floor(Math.random() * this.data.length);
+				var quote = this.data[random].quote;
+				var author = this.data[random].person;
+				_pubsub2.default.publish("updateQuote", { quote: quote, author: author });
+			}
+		}
+	}]);
+
+	return Controller;
+}();
+
+exports.default = Controller;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function($) {
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _pubsub = __webpack_require__(1);
+
+var _pubsub2 = _interopRequireDefault(_pubsub);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var View = function () {
+	function View() {
+		_classCallCheck(this, View);
+
+		this.cacheDom();
+		this.bindEvents();
+	}
+
+	_createClass(View, [{
+		key: "cacheDom",
+		value: function cacheDom() {
+			this.$main = $(".main");
+			this.$backgroundChange = $(".background-change");
+			this.$colorChange = $(".color-change");
+			this.$quoteText = this.$main.find("#quotetext");
+			this.$authorText = this.$main.find("#authortext");
+			this.$twitterLink = this.$main.find(".twitter-link");
+		}
+	}, {
+		key: "bindEvents",
+		value: function bindEvents() {
+			var _this = this;
+
+			_pubsub2.default.subscribe("updateQuote", function (quote) {
+				_this.renderNew(quote);
+			});
+			_pubsub2.default.subscribe("renderError", function (error) {
+				_this.renderError(error);
+			});
+		}
+	}, {
+		key: "renderNew",
+		value: function renderNew(data) {
+			var quote = data.quote,
+			    author = data.author;
+
+			this.tweet(quote + " \t" + author);
+			this.$quoteText.html(quote);
+			this.$authorText.html(author);
+			this.changeColor();
+			this.animate();
+		}
+	}, {
+		key: "renderError",
+		value: function renderError(error) {
+			this.$quoteText.html(error.message);
+			this.changeColor();
+			this.animate();
+		}
+	}, {
+		key: "changeColor",
+		value: function changeColor() {
+			var random = Math.floor(Math.random() * 5) + 1;
+			this["$backgroundChange"].attr("class", "background-change backgroundColor" + random);
+			this["$colorChange"].attr("class", "color-change color" + random);
+		}
+	}, {
+		key: "animate",
+		value: function animate() {
+			var random = Math.floor(Math.random() * 7);
+			var animationArray = ["rotateIn", "zoomInDown", "hinge", "shake", "rubberBand", "swing", "wobble"];
+			var animationName = "animated " + animationArray[random];
+			var animationEnd = "webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend";
+			this.$main.addClass(animationName).one(animationEnd, function () {
+				$(this).removeClass(animationName);
+			});
+		}
+	}, {
+		key: "tweet",
+		value: function tweet(string) {
+			this.$twitterLink.attr("href", "https://twitter.com/intent/tweet?hashtags=quotes&related=freecodecamp&text=" + encodeURIComponent(string));
+		}
+	}]);
+
+	return View;
+}();
+
+exports.default = View;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
 /* 5 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function($) {
+
+__webpack_require__(5);
+
+__webpack_require__(4);
+
+var _controller = __webpack_require__(2);
+
+var _controller2 = _interopRequireDefault(_controller);
+
+var _view = __webpack_require__(3);
+
+var _view2 = _interopRequireDefault(_view);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+$(document).ready(function () {
+	new _view2.default();
+	new _controller2.default("data/quotes.json");
+});
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10001,82 +10184,6 @@ module.exports = function (module) {
 	}
 	return module;
 };
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function($) {
-
-__webpack_require__(3);
-
-__webpack_require__(2);
-
-var _controller = __webpack_require__(1);
-
-var _controller2 = _interopRequireDefault(_controller);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-$(document).ready(function () {
-
-	var view = {
-		init: function init() {
-			this.cacheDom();
-			this.bindEvents();
-			this.changeColor();
-			this.animate();
-		},
-		cacheDom: function cacheDom() {
-			this.$main = $(".main");
-			this.$body = $("body");
-			this.$rightBtn = this.$main.find("#right-button");
-			this.$leftBtn = this.$main.find("#left-button");
-			this.$quoteText = this.$main.find("#quotetext");
-			this.$authorText = this.$main.find("#authortext");
-			this.$marks = this.$main.find("#marks");
-			this.$twitter = this.$main.find(".twitter");
-		},
-		bindEvents: function bindEvents() {
-			this.$rightBtn.click(function () {
-				controller.refreshQuote();
-				view.changeColor();
-				view.animate();
-			});
-		},
-		renderNew: function renderNew(data) {
-			var random = Math.floor(Math.random() * 50);
-			var currentQuote = data[random].quote;
-			var currentAuthor = data[random].person;
-			view.tweet(currentQuote + " \t" + currentAuthor);
-			view.$quoteText.html(currentQuote);
-			view.$authorText.html(currentAuthor);
-		},
-		changeColor: function changeColor() {
-			var random = Math.floor(Math.random() * 5) + 1;
-			var colorChanges = ["$body", "$rightBtn", "$leftBtn", "$quoteText", "$authorText", "$marks"];
-			colorChanges.forEach(function (element, i) {
-				view[element].removeClass().addClass((i <= 2 ? "color" : "fontColor") + random);
-			});
-		},
-		animate: function animate() {
-			var random = Math.floor(Math.random() * 8);
-			var animationArray = ["rotateIn", "zoomInDown", "hinge", "bounce", "shake", "rubberBand", "swing", "wobble"];
-			view.$main.addClass("animated " + animationArray[random]);
-			setTimeout(function () {
-				view.$main.removeClass("animated " + animationArray[random]);
-			}, 800);
-		},
-		tweet: function tweet(string) {
-			view.$twitter.attr("href", "https://twitter.com/intent/tweet?hashtags=quotes&related=freecodecamp&text=" + encodeURIComponent(string));
-		}
-	};
-
-	var controller = new _controller2.default(view);
-	controller.init();
-});
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ })
 /******/ ]);
