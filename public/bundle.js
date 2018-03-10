@@ -10089,8 +10089,8 @@ var View = function () {
 		key: "changeColor",
 		value: function changeColor() {
 			var random = Math.floor(Math.random() * 5) + 1;
-			this["$backgroundChange"].attr("class", "background-change backgroundColor" + random);
-			this["$colorChange"].attr("class", "color-change color" + random);
+			this.$backgroundChange.attr("class", "background-change backgroundColor" + random);
+			this.$colorChange.attr("class", "color-change color" + random);
 		}
 	}, {
 		key: "animate",

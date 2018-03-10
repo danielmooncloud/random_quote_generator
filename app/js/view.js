@@ -5,7 +5,6 @@ export default class View {
 	constructor() {
 		this.cacheDom();
 		this.bindEvents();
-		
 	}
 
 	cacheDom() {
@@ -43,8 +42,8 @@ export default class View {
 
 	changeColor() {	
 		const random = Math.floor(Math.random() * 5) + 1;
-		this["$backgroundChange"].attr("class", "background-change backgroundColor" + random);
-		this["$colorChange"].attr("class", "color-change color" + random);
+		this.$backgroundChange.attr("class", "background-change backgroundColor" + random);
+		this.$colorChange.attr("class", "color-change color" + random);
 	}
 
 	animate() {
