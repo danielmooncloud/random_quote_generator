@@ -7,6 +7,6 @@ import View from "./view.js";
 
 
 $(document).ready(() => {
-	new View();
-	new Controller("data/quotes.json");
+	const view = new View();
+	new Controller("data/quotes.json", view);
 });

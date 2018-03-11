@@ -1,63 +1,53 @@
-import pubSub from "./pubsub.js";
+
 
 export default class View {
 
 	constructor() {
-		this.cacheDom();
-		this.bindEvents();
+		this._cacheDom();
 	}
 
-	cacheDom() {
-		this.$main = $(".main");
-		this.$backgroundChange = $(".background-change");
-		this.$colorChange = $(".color-change");
-		this.$quoteText = this.$main.find("#quotetext");
-		this.$authorText = this.$main.find("#authortext");
-		this.$twitterLink = this.$main.find(".twitter-link");
+	_cacheDom() {
+		this._$main = $(".main");
+		this._$backgroundChange = $(".background-change");
+		this._$colorChange = $(".color-change");
+		this._$quoteText = this._$main.find("#quotetext");
+		this._$authorText = this._$main.find("#authortext");
+		this._$twitterLink = this._$main.find(".twitter-link");
 	}
 
-	bindEvents() {
-		pubSub.subscribe("updateQuote", (quote) => {
-			this.renderNew(quote);
-		});
-		pubSub.subscribe("renderError", (error) => {
-			this.renderError(error);
-		});
-	}
-
-	renderNew(data) {
-		const { quote, author } = data;   
-		this.tweet(`${quote} 	${author}`); 
-		this.$quoteText.html(quote);
-		this.$authorText.html(author);
-		this.changeColor();
-		this.animate();
-	}
-
-	renderError(error) {
-		this.$quoteText.html(error.message);
-		this.changeColor();
-		this.animate();
-	}
-
-	changeColor() {	
+	_changeColor() {	
 		const random = Math.floor(Math.random() * 5) + 1;
-		this.$backgroundChange.attr("class", "background-change backgroundColor" + random);
-		this.$colorChange.attr("class", "color-change color" + random);
+		this._$backgroundChange.attr("class", "background-change backgroundColor" + random);
+		this._$colorChange.attr("class", "color-change color" + random);
 	}
 
-	animate() {
+	_animate() {
 		const random = Math.floor(Math.random() * 7);
 		const animationArray = ["rotateIn", "zoomInDown", "hinge", "shake", "rubberBand", "swing", "wobble"];
 		const animationName = "animated " + animationArray[random];
 		const animationEnd = "webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend";
-		this.$main.addClass(animationName).one(animationEnd, function() {
+		this._$main.addClass(animationName).one(animationEnd, function() {
 			$(this).removeClass(animationName);
 		});
 	}
 
-	tweet(string) {
-		this.$twitterLink.attr("href", `https://twitter.com/intent/tweet?hashtags=quotes&related=freecodecamp&text=${encodeURIComponent(string)}`);
+	_tweet(string) {
+		this._$twitterLink.attr("href", `https://twitter.com/intent/tweet?hashtags=quotes&related=freecodecamp&text=${encodeURIComponent(string)}`);
+	}
+
+	renderNew(data) {
+		const { quote, author } = data;   
+		this._tweet(`${quote} 	${author}`); 
+		this._$quoteText.html(quote);
+		this._$authorText.html(author);
+		this._changeColor();
+		this._animate();
+	}
+
+	renderError(error) {
+		this._$quoteText.html(error.message);
+		this._changeColor();
+		this._animate();
 	}
 	
 }

@@ -1,36 +1,35 @@
-import pubSub from "./pubsub.js";
-
 
 export default class Controller {
-	constructor(filepath) {
-		this.cacheDom();
-		this.bindEvents();
+	constructor(filepath, view) {
+		this._cacheDom();
+		this._bindEvents();
+		this._view = view;
 		$.getJSON(filepath, (data) => {
-			this.data = data;
-			this.updateQuote();
+			this._data = data;
+			this._updateQuote();
 		}).fail(function() {
 			const error = new Error("This service is current unavailable.");
-			pubSub.publish("renderError", error);
+			this._view.renderError(error);
 		});
 	}
 
-	cacheDom() {
-		this.$main = $(".main");
-		this.$quoteBtn = this.$main.find("#quote-button");
+	_cacheDom() {
+		this._$main = $(".main");
+		this._$quoteBtn = this._$main.find("#quote-button");
 	}
 
-	bindEvents() {
-		this.$quoteBtn.click(() => {
-			this.updateQuote();
+	_bindEvents() {
+		this._$quoteBtn.click(() => {
+			this._updateQuote();
 		});
 	}
 
-	updateQuote() {
-		if(this.data) {
-			const random = Math.floor(Math.random() * this.data.length);
-			const quote = this.data[random].quote;
-			const author = this.data[random].person;
-			pubSub.publish("updateQuote", {quote, author});
+	_updateQuote() {
+		if(this._data) {
+			const random = Math.floor(Math.random() * this._data.length);
+			const quote = this._data[random].quote;
+			const author = this._data[random].person;
+			this._view.renderNew({quote, author});
 		}
 	}
 
