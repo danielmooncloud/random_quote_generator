@@ -1,0 +1,21 @@
+{
+    "background_color": "#ffa500",
+    "theme_color": "#ffa500",
+    "description": "Get a random quote",
+    "display": "fullscreen",
+    "icons": [
+      {
+        "src": "/images/title-192x192.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      },
+      {  
+        "src": "/images/title-512x512.png",  
+        "sizes": "512x512",  
+        "type": "image/png"  
+      }
+    ],
+    "name": "Random Quote Generator",
+    "short_name": "Random Quote",
+    "start_url": "localhost"
+  }

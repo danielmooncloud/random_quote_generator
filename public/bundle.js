@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 6);
+/******/ 	return __webpack_require__(__webpack_require__.s = 5);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -9900,49 +9900,73 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 	return jQuery;
 });
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)(module)))
 
 /***/ }),
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function($) {
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var pubSub = {
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	events: {},
-
-	subscribe: function subscribe(eventName, fn) {
-		this.events[eventName] = this.events[eventName] || [];
-		this.events[eventName].push(fn);
-	},
-	unsubscribe: function unsubscribe(eventName, fn) {
+var Controller = function () {
+	function Controller(filepath, view) {
 		var _this = this;
 
-		if (this.events[eventName]) {
-			this.events[eventName].forEach(function (fxn, i) {
-				if (fxn === fn) {
-					_this.events[eventName].splice(i, 1);
-				}
-			});
-		}
-	},
-	publish: function publish(eventName, data) {
-		if (this.events[eventName]) {
-			this.events[eventName].forEach(function (fn) {
-				fn(data);
-			});
-		}
-	}
-};
+		_classCallCheck(this, Controller);
 
-exports.default = pubSub;
+		this._cacheDom();
+		this._bindEvents();
+		this._view = view;
+		$.getJSON(filepath, function (data) {
+			_this._data = data;
+			_this._updateQuote();
+		}).fail(function () {
+			var error = new Error("This service is current unavailable.");
+			this._view.renderError(error);
+		});
+	}
+
+	_createClass(Controller, [{
+		key: "_cacheDom",
+		value: function _cacheDom() {
+			this._$main = $(".main");
+			this._$quoteBtn = this._$main.find("#quote-button");
+		}
+	}, {
+		key: "_bindEvents",
+		value: function _bindEvents() {
+			var _this2 = this;
+
+			this._$quoteBtn.click(function () {
+				_this2._updateQuote();
+			});
+		}
+	}, {
+		key: "_updateQuote",
+		value: function _updateQuote() {
+			if (this._data) {
+				var random = Math.floor(Math.random() * this._data.length);
+				var quote = this._data[random].quote;
+				var author = this._data[random].person;
+				this._view.renderNew({ quote: quote, author: author });
+			}
+		}
+	}]);
+
+	return Controller;
+}();
+
+exports.default = Controller;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
 /* 2 */
@@ -9957,114 +9981,47 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _pubsub = __webpack_require__(1);
-
-var _pubsub2 = _interopRequireDefault(_pubsub);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Controller = function () {
-	function Controller(filepath) {
-		var _this = this;
-
-		_classCallCheck(this, Controller);
-
-		this.cacheDom();
-		this.bindEvents();
-		$.getJSON(filepath, function (data) {
-			_this.data = data;
-			_this.updateQuote();
-		}).fail(function () {
-			var error = new Error("This service is current unavailable.");
-			_pubsub2.default.publish("renderError", error);
-		});
-	}
-
-	_createClass(Controller, [{
-		key: "cacheDom",
-		value: function cacheDom() {
-			this.$main = $(".main");
-			this.$quoteBtn = this.$main.find("#quote-button");
-		}
-	}, {
-		key: "bindEvents",
-		value: function bindEvents() {
-			var _this2 = this;
-
-			this.$quoteBtn.click(function () {
-				_this2.updateQuote();
-			});
-		}
-	}, {
-		key: "updateQuote",
-		value: function updateQuote() {
-			if (this.data) {
-				var random = Math.floor(Math.random() * this.data.length);
-				var quote = this.data[random].quote;
-				var author = this.data[random].person;
-				_pubsub2.default.publish("updateQuote", { quote: quote, author: author });
-			}
-		}
-	}]);
-
-	return Controller;
-}();
-
-exports.default = Controller;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function($) {
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _pubsub = __webpack_require__(1);
-
-var _pubsub2 = _interopRequireDefault(_pubsub);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var View = function () {
 	function View() {
 		_classCallCheck(this, View);
 
-		this.cacheDom();
-		this.bindEvents();
+		this._cacheDom();
 	}
 
 	_createClass(View, [{
-		key: "cacheDom",
-		value: function cacheDom() {
-			this.$main = $(".main");
-			this.$backgroundChange = $(".background-change");
-			this.$colorChange = $(".color-change");
-			this.$quoteText = this.$main.find("#quotetext");
-			this.$authorText = this.$main.find("#authortext");
-			this.$twitterLink = this.$main.find(".twitter-link");
+		key: "_cacheDom",
+		value: function _cacheDom() {
+			this._$main = $(".main");
+			this._$backgroundChange = $(".background-change");
+			this._$colorChange = $(".color-change");
+			this._$quoteText = this._$main.find("#quotetext");
+			this._$authorText = this._$main.find("#authortext");
+			this._$twitterLink = this._$main.find(".twitter-link");
 		}
 	}, {
-		key: "bindEvents",
-		value: function bindEvents() {
-			var _this = this;
-
-			_pubsub2.default.subscribe("updateQuote", function (quote) {
-				_this.renderNew(quote);
+		key: "_changeColor",
+		value: function _changeColor() {
+			var random = Math.floor(Math.random() * 5) + 1;
+			this._$backgroundChange.attr("class", "background-change backgroundColor" + random);
+			this._$colorChange.attr("class", "color-change color" + random);
+		}
+	}, {
+		key: "_animate",
+		value: function _animate() {
+			var random = Math.floor(Math.random() * 7);
+			var animationArray = ["rotateIn", "zoomInDown", "hinge", "shake", "rubberBand", "swing", "wobble"];
+			var animationName = "animated " + animationArray[random];
+			var animationEnd = "webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend";
+			this._$main.addClass(animationName).one(animationEnd, function () {
+				$(this).removeClass(animationName);
 			});
-			_pubsub2.default.subscribe("renderError", function (error) {
-				_this.renderError(error);
-			});
+		}
+	}, {
+		key: "_tweet",
+		value: function _tweet(string) {
+			this._$twitterLink.attr("href", "https://twitter.com/intent/tweet?hashtags=quotes&related=freecodecamp&text=" + encodeURIComponent(string));
 		}
 	}, {
 		key: "renderNew",
@@ -10072,41 +10029,18 @@ var View = function () {
 			var quote = data.quote,
 			    author = data.author;
 
-			this.tweet(quote + " \t" + author);
-			this.$quoteText.html(quote);
-			this.$authorText.html(author);
-			this.changeColor();
-			this.animate();
+			this._tweet(quote + " \t" + author);
+			this._$quoteText.html(quote);
+			this._$authorText.html(author);
+			this._changeColor();
+			this._animate();
 		}
 	}, {
 		key: "renderError",
 		value: function renderError(error) {
-			this.$quoteText.html(error.message);
-			this.changeColor();
-			this.animate();
-		}
-	}, {
-		key: "changeColor",
-		value: function changeColor() {
-			var random = Math.floor(Math.random() * 5) + 1;
-			this.$backgroundChange.attr("class", "background-change backgroundColor" + random);
-			this.$colorChange.attr("class", "color-change color" + random);
-		}
-	}, {
-		key: "animate",
-		value: function animate() {
-			var random = Math.floor(Math.random() * 7);
-			var animationArray = ["rotateIn", "zoomInDown", "hinge", "shake", "rubberBand", "swing", "wobble"];
-			var animationName = "animated " + animationArray[random];
-			var animationEnd = "webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend";
-			this.$main.addClass(animationName).one(animationEnd, function () {
-				$(this).removeClass(animationName);
-			});
-		}
-	}, {
-		key: "tweet",
-		value: function tweet(string) {
-			this.$twitterLink.attr("href", "https://twitter.com/intent/tweet?hashtags=quotes&related=freecodecamp&text=" + encodeURIComponent(string));
+			this._$quoteText.html(error.message);
+			this._changeColor();
+			this._animate();
 		}
 	}]);
 
@@ -10117,6 +10051,12 @@ exports.default = View;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
+/* 3 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
 /* 4 */
 /***/ (function(module, exports) {
 
@@ -10124,39 +10064,33 @@ exports.default = View;
 
 /***/ }),
 /* 5 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function($) {
 
-__webpack_require__(5);
-
 __webpack_require__(4);
 
-var _controller = __webpack_require__(2);
+__webpack_require__(3);
+
+var _controller = __webpack_require__(1);
 
 var _controller2 = _interopRequireDefault(_controller);
 
-var _view = __webpack_require__(3);
+var _view = __webpack_require__(2);
 
 var _view2 = _interopRequireDefault(_view);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 $(document).ready(function () {
-	new _view2.default();
-	new _controller2.default("data/quotes.json");
+	var view = new _view2.default();
+	new _controller2.default("data/quotes.json", view);
 });
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
